@@ -3,12 +3,11 @@ package processor;
 import domain.Card;
 import domain.Combo;
 import domain.Hand;
-import domain.Rang;
+import domain.Rank;
 import util.HandUtil;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ComboProcessor {
 
@@ -37,13 +36,13 @@ public class ComboProcessor {
     private boolean checkRoyalFlush(Hand hand) {
         return checkFlush(hand) &&
                 checkStraight(hand) &&
-                HandUtil.sortHandByCardStrength(hand).get(0) == Rang.TEN.getStrength();
+                HandUtil.reverseSortedHandByCardStrength(hand).get(0) == Rank.TEN.getStrength();
     }
 
     private boolean checkStraightFlush(Hand hand) {
         return checkFlush(hand) &&
                 checkStraight(hand) &&
-                HandUtil.sortHandByCardStrength(hand).get(0) != Rang.TEN.getStrength();
+                HandUtil.reverseSortedHandByCardStrength(hand).get(0) != Rank.TEN.getStrength();
     }
 
     private boolean checkFourOfKind(Hand hand) {
@@ -58,11 +57,11 @@ public class ComboProcessor {
 
     private boolean checkFlush(Hand hand) {
         long count = hand.getCards().stream().map(Card::getSuit).distinct().count();
-        return count == 5;
+        return count == 1;
     }
 
     private boolean checkStraight(Hand hand) {
-        List<Integer> sortedCardsByStrength = HandUtil.sortHandByCardStrength(hand);
+        List<Integer> sortedCardsByStrength = HandUtil.sortedHandByCardStrength(hand);
         if (isCheckCycleStraight(sortedCardsByStrength)) {
             return true;
         }
@@ -76,10 +75,9 @@ public class ComboProcessor {
     }
 
     private boolean checkThreeOfKind(Hand hand) {
-        Map<String, List<Card>> groupingByCardsRang = hand.getCards().stream()
-                .collect(Collectors.groupingBy(card -> card.getRang().getValue()));
-        for (Map.Entry<String, List<Card>> entry: groupingByCardsRang.entrySet()) {
-            if (entry.getValue().size() == 3) {
+        Map<Rank, Long> groupingByCardsRang = HandUtil.groupHandByCardRank(hand);
+        for (Map.Entry<Rank, Long> entry: groupingByCardsRang.entrySet()) {
+            if (entry.getValue() == 3) {
                 return true;
             }
         }
@@ -97,10 +95,10 @@ public class ComboProcessor {
     }
 
     private boolean isCheckCycleStraight(List<Integer> sortedCardsByStrength) {
-        return sortedCardsByStrength.contains(Rang.TWO.getStrength()) &&
-                sortedCardsByStrength.contains(Rang.THREE.getStrength()) &&
-                sortedCardsByStrength.contains(Rang.FOUR.getStrength()) &&
-                sortedCardsByStrength.contains(Rang.FIVE.getStrength()) &&
-                sortedCardsByStrength.contains(Rang.ACE.getStrength());
+        return sortedCardsByStrength.contains(Rank.TWO.getStrength()) &&
+                sortedCardsByStrength.contains(Rank.THREE.getStrength()) &&
+                sortedCardsByStrength.contains(Rank.FOUR.getStrength()) &&
+                sortedCardsByStrength.contains(Rank.FIVE.getStrength()) &&
+                sortedCardsByStrength.contains(Rank.ACE.getStrength());
     }
 }

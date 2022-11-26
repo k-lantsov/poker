@@ -3,20 +3,20 @@ package domain;
 import java.util.Objects;
 
 public class Card {
-    private Rang rang;
+    private Rank rank;
     private Suit suit;
 
-    public Card(Rang rang, Suit suit) {
-        this.rang = rang;
+    public Card(Rank rank, Suit suit) {
+        this.rank = rank;
         this.suit = suit;
     }
 
-    public Rang getRang() {
-        return rang;
+    public Rank getRang() {
+        return rank;
     }
 
-    public void setRang(Rang rang) {
-        this.rang = rang;
+    public void setRang(Rank rank) {
+        this.rank = rank;
     }
 
     public Suit getSuit() {
@@ -32,18 +32,18 @@ public class Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return rang.equals(card.rang) && suit.equals(card.suit);
+        return rank.equals(card.rank) && suit.equals(card.suit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rang, suit);
+        return Objects.hash(rank, suit);
     }
 
     @Override
     public String toString() {
         return "Card{" +
-                "value=" + rang +
+                "value=" + rank +
                 ", suit=" + suit +
                 '}';
     }
