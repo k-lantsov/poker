@@ -1,18 +1,20 @@
 package domain;
 
+import java.util.List;
+
 public class Hand {
 
-    private Card[] cards;
+    private List<Card> cards;
 
-    public Hand(Card[] cards) {
+    public Hand(List<Card> cards) {
         this.cards = cards;
     }
 
-    public Card[] getCards() {
+    public List<Card> getCards() {
         return cards;
     }
 
-    public void setCards(Card[] cards) {
+    public void setCards(List<Card> cards) {
         this.cards = cards;
     }
 }
