@@ -1,7 +1,7 @@
 package com.company.poker.processor;
 
 import com.company.poker.domain.Card;
-import com.company.poker.domain.Hand;
+import com.company.poker.domain.PokerHand;
 import com.company.poker.domain.Rank;
 import com.company.poker.domain.Suit;
 
@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 
 public class HandProducer {
 
-    public List<Hand> produce(String line) {
-        Hand hand1 = new Hand(new ArrayList<>());
-        Hand hand2 = new Hand(new ArrayList<>());
+    public List<PokerHand> produce(String line) {
+        PokerHand pokerHand1 = new PokerHand(new ArrayList<>());
+        PokerHand pokerHand2 = new PokerHand(new ArrayList<>());
         String[] split = line.split(" ");
         for (int i = 0; i < split.length; i++) {
             char[] chars = split[i].toCharArray();
@@ -29,11 +29,11 @@ public class HandProducer {
                     .orElseThrow(() -> new RuntimeException("There isn't suit value " + suitValue));
             Card card = new Card(rank, suit);
             if (i < 5) {
-                hand1.getCards().add(card);
+                pokerHand1.getCards().add(card);
                 continue;
             }
-            hand2.getCards().add(card);
+            pokerHand2.getCards().add(card);
         }
-        return List.of(hand1, hand2);
+        return List.of(pokerHand1, pokerHand2);
     }
 }

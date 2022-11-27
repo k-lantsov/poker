@@ -11,11 +11,11 @@ public class Card {
         this.suit = suit;
     }
 
-    public Rank getRang() {
+    public Rank getRank() {
         return rank;
     }
 
-    public void setRang(Rank rank) {
+    public void setRank(Rank rank) {
         this.rank = rank;
     }
 

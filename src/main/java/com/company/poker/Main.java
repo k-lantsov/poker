@@ -1,6 +1,6 @@
 package com.company.poker;
 
-import com.company.poker.domain.Hand;
+import com.company.poker.domain.PokerHand;
 import com.company.poker.processor.ComboProcessor;
 import com.company.poker.processor.HandProducer;
 import com.company.poker.processor.PokerProcessor;
@@ -21,8 +21,8 @@ public class Main {
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
             while (reader.ready()) {
                 String line = reader.readLine();
-                List<Hand> hands = handProducer.produce(line);
-                if (pp.process(hands.get(0), hands.get(1))) {
+                List<PokerHand> pokerHands = handProducer.produce(line);
+                if (pp.process(pokerHands.get(0), pokerHands.get(1))) {
                     counter++;
                 }
             }
