@@ -1,4 +1,4 @@
-package domain;
+package com.company.poker.domain;
 
 import java.util.List;
 

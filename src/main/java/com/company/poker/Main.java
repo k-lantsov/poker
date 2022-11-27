@@ -1,7 +1,9 @@
-import domain.Hand;
-import processor.ComboProcessor;
-import processor.PokerProcessor;
-import processor.HandGenerator;
+package com.company.poker;
+
+import com.company.poker.domain.Hand;
+import com.company.poker.processor.ComboProcessor;
+import com.company.poker.processor.HandProducer;
+import com.company.poker.processor.PokerProcessor;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,14 +15,14 @@ public class Main {
     private static final String PATH = "poker.txt";
 
     public static void main(String[] args) {
-        HandGenerator handGenerator = new HandGenerator();
-        PokerProcessor hpp = new PokerProcessor(new ComboProcessor());
+        HandProducer handProducer = new HandProducer();
+        PokerProcessor pp = new PokerProcessor(new ComboProcessor());
         int counter = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
             while (reader.ready()) {
                 String line = reader.readLine();
-                List<Hand> hands = handGenerator.generate(line);
-                if (hpp.process(hands.get(0), hands.get(1))) {
+                List<Hand> hands = handProducer.produce(line);
+                if (pp.process(hands.get(0), hands.get(1))) {
                     counter++;
                 }
             }

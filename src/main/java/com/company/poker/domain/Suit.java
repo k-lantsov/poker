@@ -1,4 +1,4 @@
-package domain;
+package com.company.poker.domain;
 
 public enum Suit {
     DIAMONDS("D"),

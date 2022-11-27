@@ -1,8 +1,8 @@
-package util;
+package com.company.poker.util;
 
-import domain.Card;
-import domain.Hand;
-import domain.Rank;
+import com.company.poker.domain.Card;
+import com.company.poker.domain.Hand;
+import com.company.poker.domain.Rank;
 
 import java.util.Comparator;
 import java.util.List;

@@ -1,7 +1,4 @@
-package domain;
-
-import java.util.Arrays;
-import java.util.stream.Stream;
+package com.company.poker.domain;
 
 public enum Rank {
     TWO("2", 2),

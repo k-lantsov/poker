@@ -1,17 +1,17 @@
-package processor;
+package com.company.poker.processor;
 
-import domain.Card;
-import domain.Hand;
-import domain.Rank;
-import domain.Suit;
+import com.company.poker.domain.Card;
+import com.company.poker.domain.Hand;
+import com.company.poker.domain.Rank;
+import com.company.poker.domain.Suit;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class HandGenerator {
+public class HandProducer {
 
-    public List<Hand> generate(String line) {
+    public List<Hand> produce(String line) {
         Hand hand1 = new Hand(new ArrayList<>());
         Hand hand2 = new Hand(new ArrayList<>());
         String[] split = line.split(" ");

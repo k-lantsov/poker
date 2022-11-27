@@ -1,10 +1,10 @@
-package processor;
+package com.company.poker.processor;
 
-import domain.Card;
-import domain.Combo;
-import domain.Hand;
-import domain.Rank;
-import util.HandUtil;
+import com.company.poker.domain.Card;
+import com.company.poker.domain.Combo;
+import com.company.poker.domain.Hand;
+import com.company.poker.domain.Rank;
+import com.company.poker.util.HandUtil;
 
 import java.util.List;
 import java.util.Map;
