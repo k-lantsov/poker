@@ -87,20 +87,17 @@ public class PokerProcessor {
     }
 
     private boolean postProcessStraight(PokerHand pokerHand1, PokerHand pokerHand2) {
-        List<Card> reversedHand1 = HandUtil.reverseSortedByCardsRank(pokerHand1);
-        List<Card> reversedHand2 = HandUtil.reverseSortedByCardsRank(pokerHand2);
-        int i = 0;
-        while (true) {
-            Rank hand1CardRank = reversedHand1.get(i).getRank();
-            Rank hand2CardRank = reversedHand2.get(i).getRank();
-            if (hand1CardRank.equals(hand2CardRank)
-                    || Rank.ACE.equals(hand1CardRank)
-                    || Rank.ACE.equals(hand2CardRank)) {
-                i++;
+        List<Card> sorted1 = HandUtil.sortedByCardsRank(pokerHand1);
+        List<Card> sorted2 = HandUtil.sortedByCardsRank(pokerHand2);
+        for (int i = 0; i < sorted1.size(); i++) {
+            Rank rank1 = sorted1.get(i).getRank();
+            Rank rank2 = sorted2.get(i).getRank();
+            if (rank1.getStrength() == rank2.getStrength()) {
                 continue;
             }
-            return hand1CardRank.getStrength() > hand2CardRank.getStrength();
+            return rank1.getStrength() > rank2.getStrength() && !Rank.ACE.equals(rank1);
         }
+        return false;
     }
 
     private boolean postProcessLowerCombos(PokerHand pokerHand1, PokerHand pokerHand2) {

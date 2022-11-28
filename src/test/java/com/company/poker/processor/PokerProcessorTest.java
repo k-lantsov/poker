@@ -75,6 +75,18 @@ class PokerProcessorTest {
         PokerHand threeOfAKT = new PokerHand(List.of(aS, aD, aC, kS, tS));
         PokerHand threeOfA = new PokerHand(List.of(aS, aD, aC, kS, tS));
         PokerHand threeOfK = new PokerHand(List.of(kS, kD, kC, aS, tS));
+        PokerHand twoPairOfKQ = new PokerHand(List.of(kS, kD, qC, qS, tS));
+        PokerHand twoPairOfKA = new PokerHand(List.of(kS, kD, aC, aS, tS));
+        PokerHand twoPairOfKTA = new PokerHand(List.of(kS, kD, aC, tD, tS));
+        PokerHand twoPairOfKTQ = new PokerHand(List.of(kS, kD, qS, tD, tS));
+        PokerHand twoPairOfATQ = new PokerHand(List.of(aS, aC, qS, tD, tS));
+        PokerHand pairOfA = new PokerHand(List.of(aS, aC, qS, jS, tS));
+        PokerHand pairOfT = new PokerHand(List.of(aS, kD, nS, tD, tS));
+        PokerHand pairOfAKJN = new PokerHand(List.of(aS, aD, kD, jS, nS));
+        PokerHand pairOfAKJT = new PokerHand(List.of(aS, aD, kD, jS, tS));
+        PokerHand noComboOfAKJT2 = new PokerHand(List.of(aS, twS, kD, jS, tS));
+        PokerHand noComboOfAKJT4 = new PokerHand(List.of(aS, fourD, kD, jS, tS));
+        PokerHand noComboOfKJT42 = new PokerHand(List.of(twS, fourD, kD, jS, tS));
 
         return Stream.of(
                 Arguments.of(royalFlushS, royalFlushD, false),
@@ -101,9 +113,21 @@ class PokerProcessorTest {
                 Arguments.of(straightA5, straightEQ, false),
                 Arguments.of(straightNK, straightEQ, true),
                 Arguments.of(straightEQ, straightTA, false),
-                Arguments.of(straightTA, straightA5, true)
-//                Arguments.of(threeOfA, threeOfK, true),
-//                Arguments.of(threeOfK, threeOfA, false)
+                Arguments.of(straightTA, straightA5, true),
+                Arguments.of(threeOfA, threeOfK, true),
+                Arguments.of(threeOfK, threeOfA, false),
+                Arguments.of(threeOfAKQ, threeOfAKT, true),
+                Arguments.of(threeOfAKT, threeOfAKQ, false),
+                Arguments.of(twoPairOfKA, twoPairOfKQ, true),
+                Arguments.of(twoPairOfKQ, twoPairOfKA, false),
+                Arguments.of(twoPairOfKQ, twoPairOfATQ, false),
+                Arguments.of(twoPairOfKTA, twoPairOfKTQ, true),
+                Arguments.of(pairOfA, pairOfT, true),
+                Arguments.of(pairOfT, pairOfA, false),
+                Arguments.of(pairOfAKJN, pairOfAKJT, false),
+                Arguments.of(noComboOfAKJT4, noComboOfAKJT2, true),
+                Arguments.of(noComboOfAKJT2, noComboOfAKJT4, false),
+                Arguments.of(noComboOfKJT42, noComboOfAKJT4, false)
         );
     }
 }

@@ -105,10 +105,18 @@ public class ComboProcessor {
 
     private boolean isStraight(PokerHand pokerHand) {
         List<Card> cardsByRank = HandUtil.sortedByCardsRank(pokerHand);
-        int size = cardsByRank.size();
-        int lastCardStrength = cardsByRank.get(size - 1).getRank().getStrength();
-        int firstCardStrength = cardsByRank.get(0).getRank().getStrength();
-        return isCycleStraight(cardsByRank) || lastCardStrength - firstCardStrength == 4;
+        if (isCycleStraight(cardsByRank)) {
+            return true;
+        }
+        for (int i = 1; i < cardsByRank.size(); i++) {
+            Card current = cardsByRank.get(i);
+            Card previous = cardsByRank.get(i - 1);
+            if (current.getRank().getStrength() - previous.getRank().getStrength() == 1) {
+                continue;
+            }
+            return false;
+        }
+        return true;
     }
 
     private boolean isThreeOfKind(PokerHand pokerHand) {
