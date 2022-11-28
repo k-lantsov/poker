@@ -3,7 +3,7 @@ package com.company.poker;
 import com.company.poker.domain.PokerHand;
 import com.company.poker.processor.ComboProcessor;
 import com.company.poker.processor.HandProducer;
-import com.company.poker.processor.PokerProcessor;
+import com.company.poker.processor.game.GameProcessor;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,13 +16,14 @@ public class Main {
 
     public static void main(String[] args) {
         HandProducer handProducer = new HandProducer();
-        PokerProcessor pp = new PokerProcessor(new ComboProcessor());
+        ComboProcessor comboProcessor = new ComboProcessor();
+        GameProcessor gameProcessor = new GameProcessor();
         int counter = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
             while (reader.ready()) {
                 String line = reader.readLine();
                 List<PokerHand> pokerHands = handProducer.produce(line);
-                if (pp.process(pokerHands.get(0), pokerHands.get(1))) {
+                if (gameProcessor.process(comboProcessor, pokerHands.get(0), pokerHands.get(1))) {
                     counter++;
                 }
             }
