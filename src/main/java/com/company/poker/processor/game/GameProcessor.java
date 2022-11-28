@@ -6,7 +6,16 @@ import com.company.poker.processor.ComboProcessor;
 import com.company.poker.util.PokerContext;
 
 public class GameProcessor {
-
+    /**
+     * The method processes poker hands of both players and determines strength of the hands combinations.
+     * If the combinations are not the same the method give boolean result.
+     * If both players have the same combination the method call corresponding method
+     * for additional checking of the winner in corresponding game post processor
+     * @param comboProcessor
+     * @param pokerHand1
+     * @param pokerHand2
+     * @return true - when player #1 is a winner, false - player #2
+     */
     public boolean process(ComboProcessor comboProcessor, PokerHand pokerHand1, PokerHand pokerHand2) {
         Combo combo1 = comboProcessor.process(pokerHand1);
         Combo combo2 = comboProcessor.process(pokerHand2);

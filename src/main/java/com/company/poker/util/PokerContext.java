@@ -7,6 +7,9 @@ import com.company.poker.processor.game.impl.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The class stores combination and corresponding game post processor which will involved in case of the same combinations for both players
+ */
 public class PokerContext {
 
     private PokerContext() {

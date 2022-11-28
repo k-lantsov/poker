@@ -13,6 +13,9 @@ public class ComboProcessor {
 
     private Combo combo;
 
+    /**
+     * The method accepts poker hand consisted of 5 cards and determines combination of the cards
+     */
     public Combo process(PokerHand pokerHand) {
         checkRoyalFlush(pokerHand);
         return combo;

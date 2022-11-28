@@ -11,6 +11,9 @@ import java.util.stream.Stream;
 
 public class HandProducer {
 
+    /**
+     * The method accepts line from poker.txt file and form poker hands for both players for one round of a game
+     */
     public List<PokerHand> produce(String line) {
         PokerHand pokerHand1 = new PokerHand(new ArrayList<>());
         PokerHand pokerHand2 = new PokerHand(new ArrayList<>());
