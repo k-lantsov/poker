@@ -106,6 +106,7 @@ class GamePostProcessorTest {
                 Arguments.of(fullHouseKT, fullHouseKQ, false),
                 Arguments.of(fullHouseKQ, fullHouseKT, true),
                 Arguments.of(fullHouseQK, fullHouseKT, false),
+                Arguments.of(fullHouseQK, fullHouseKQ, false),
                 Arguments.of(flushA, flushK, true),
                 Arguments.of(flushK, flushA, false),
                 Arguments.of(flushAKJ, flushAKQ, false),
