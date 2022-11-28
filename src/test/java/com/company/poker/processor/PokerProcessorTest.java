@@ -29,6 +29,7 @@ class PokerProcessorTest {
 
         Card aS = new Card(Rank.ACE, Suit.SPADES);
         Card aD = new Card(Rank.ACE, Suit.DIAMONDS);
+        Card aC = new Card(Rank.ACE, Suit.CLUBS);
         Card kS = new Card(Rank.KING, Suit.SPADES);
         Card kH = new Card(Rank.KING, Suit.HEARTS);
         Card kC = new Card(Rank.KING, Suit.CLUBS);
@@ -70,6 +71,10 @@ class PokerProcessorTest {
         PokerHand straightNK = new PokerHand(List.of(tS, jD, qS, kS, nS));
         PokerHand straightEQ = new PokerHand(List.of(tS, jD, qS, eS, nS));
         PokerHand straightA5 = new PokerHand(List.of(twS, thrS, aD, fourD, fiveD));
+        PokerHand threeOfAKQ = new PokerHand(List.of(aS, aD, aC, kS, qC));
+        PokerHand threeOfAKT = new PokerHand(List.of(aS, aD, aC, kS, tS));
+        PokerHand threeOfA = new PokerHand(List.of(aS, aD, aC, kS, tS));
+        PokerHand threeOfK = new PokerHand(List.of(kS, kD, kC, aS, tS));
 
         return Stream.of(
                 Arguments.of(royalFlushS, royalFlushD, false),
@@ -96,9 +101,9 @@ class PokerProcessorTest {
                 Arguments.of(straightA5, straightEQ, false),
                 Arguments.of(straightNK, straightEQ, true),
                 Arguments.of(straightEQ, straightTA, false),
-                Arguments.of(straightTA, straightA5, true),
-                Arguments.of(straightA5, straightTA, false)
-
+                Arguments.of(straightTA, straightA5, true)
+//                Arguments.of(threeOfA, threeOfK, true),
+//                Arguments.of(threeOfK, threeOfA, false)
         );
     }
 }

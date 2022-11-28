@@ -11,87 +11,109 @@ import java.util.Map;
 
 public class ComboProcessor {
 
+    private Combo combo;
+
     public Combo process(PokerHand pokerHand) {
-        if (checkRoyalFlush(pokerHand))
-            return Combo.ROYAL_FLUSH;
-        if (checkStraightFlush(pokerHand))
-            return Combo.STRAIGHT_FLUSH;
-        if (checkFourOfKind(pokerHand))
-            return Combo.FOUR_OF_A_KIND;
-        if (checkFullHouse(pokerHand))
-            return Combo.FULL_HOUSE;
-        if (checkFlush(pokerHand))
-            return Combo.FLUSH;
-        if (checkStraight(pokerHand))
-            return Combo.STRAIGHT;
-        if (checkThreeOfKind(pokerHand))
-            return Combo.THREE_OF_A_KIND;
-        if (checkTwoPair(pokerHand))
-            return Combo.TWO_PAIRS;
-        if (checkPair(pokerHand))
-            return Combo.ONE_PAIR;
-        return Combo.NO_COMBO;
+        checkRoyalFlush(pokerHand);
+        return combo;
     }
 
-    private boolean checkRoyalFlush(PokerHand pokerHand) {
-        return checkFlush(pokerHand) &&
-                checkStraight(pokerHand) &&
-                Rank.TEN.equals(HandUtil.sortedByCardsRank(pokerHand).get(0).getRank());
+    private void checkRoyalFlush(PokerHand pokerHand) {
+        if (isFlush(pokerHand) &&
+                isStraight(pokerHand) &&
+                Rank.TEN.equals(HandUtil.sortedByCardsRank(pokerHand).get(0).getRank())) {
+            combo = Combo.ROYAL_FLUSH;
+            return;
+        }
+        checkStraightFlush(pokerHand);
     }
 
-    private boolean checkStraightFlush(PokerHand pokerHand) {
-        return checkFlush(pokerHand) &&
-                checkStraight(pokerHand) &&
-                !Rank.TEN.equals(HandUtil.reverseSortedByCardsRank(pokerHand).get(0).getRank());
+    private void checkStraightFlush(PokerHand pokerHand) {
+        if (isFlush(pokerHand) &&
+                isStraight(pokerHand) &&
+                !Rank.TEN.equals(HandUtil.reverseSortedByCardsRank(pokerHand).get(0).getRank())) {
+            combo = Combo.STRAIGHT_FLUSH;
+            return;
+        }
+        checkFourOfKind(pokerHand);
     }
 
-    private boolean checkFourOfKind(PokerHand pokerHand) {
+    private void checkFourOfKind(PokerHand pokerHand) {
+        Map<Rank, Long> groupingByCardRank = HandUtil.groupHandByCardRank(pokerHand);
+        if (groupingByCardRank.containsValue(4L)) {
+            combo = Combo.FOUR_OF_A_KIND;
+            return;
+        }
+        checkFullHouse(pokerHand);
+    }
+
+    private void checkFullHouse(PokerHand pokerHand) {
+        Map<Rank, Long> groupingByCardRank = HandUtil.groupHandByCardRank(pokerHand);
+        if (groupingByCardRank.containsValue(3L) && groupingByCardRank.size() == 2) {
+            combo = Combo.FULL_HOUSE;
+            return;
+        }
+        checkFlush(pokerHand);
+    }
+
+    private void checkFlush(PokerHand pokerHand) {
+        if (isFlush(pokerHand)) {
+            combo = Combo.FLUSH;
+            return;
+        }
+        checkStraight(pokerHand);
+    }
+
+    private void checkStraight(PokerHand pokerHand) {
+        if (isStraight(pokerHand)) {
+            combo = Combo.STRAIGHT;
+            return;
+        }
+        checkThreeOfKind(pokerHand);
+    }
+
+    private void checkThreeOfKind(PokerHand pokerHand) {
+        if (isThreeOfKind(pokerHand)) {
+            combo = Combo.THREE_OF_A_KIND;
+            return;
+        }
+        checkTwoPair(pokerHand);
+    }
+
+    private void checkTwoPair(PokerHand pokerHand) {
         long count = pokerHand.getCards().stream().map(Card::getRank).distinct().count();
-        return !checkThreeOfKind(pokerHand) && count == 2;
+        if (!isThreeOfKind(pokerHand) && count == 3) {
+            combo = Combo.TWO_PAIRS;
+            return;
+        }
+        checkPair(pokerHand);
     }
 
-    private boolean checkFullHouse(PokerHand pokerHand) {
+    private void checkPair(PokerHand pokerHand) {
         long count = pokerHand.getCards().stream().map(Card::getRank).distinct().count();
-        return checkThreeOfKind(pokerHand) && count == 2;
+        if (count == 4) {
+            combo = Combo.ONE_PAIR;
+            return;
+        }
+        combo = Combo.NO_COMBO;
     }
 
-    private boolean checkFlush(PokerHand pokerHand) {
+    private boolean isFlush(PokerHand pokerHand) {
         long count = pokerHand.getCards().stream().map(Card::getSuit).distinct().count();
         return count == 1;
     }
 
-    private boolean checkStraight(PokerHand pokerHand) {
+    private boolean isStraight(PokerHand pokerHand) {
         List<Card> cardsByRank = HandUtil.sortedByCardsRank(pokerHand);
-        if (isCycleStraight(cardsByRank)) {
-            return true;
-        }
-        for (int i = 1; i < cardsByRank.size(); i++) {
-            if (cardsByRank.get(i).getRank().getStrength() - cardsByRank.get(i - 1).getRank().getStrength() == 1) {
-                continue;
-            }
-            return false;
-        }
-        return true;
+        int size = cardsByRank.size();
+        int lastCardStrength = cardsByRank.get(size - 1).getRank().getStrength();
+        int firstCardStrength = cardsByRank.get(0).getRank().getStrength();
+        return isCycleStraight(cardsByRank) || lastCardStrength - firstCardStrength == 4;
     }
 
-    private boolean checkThreeOfKind(PokerHand pokerHand) {
-        Map<Rank, Long> groupingByCardsRang = HandUtil.groupHandByCardRank(pokerHand);
-        for (Map.Entry<Rank, Long> entry: groupingByCardsRang.entrySet()) {
-            if (entry.getValue() == 3) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkTwoPair(PokerHand pokerHand) {
-        long count = pokerHand.getCards().stream().map(Card::getRank).distinct().count();
-        return !checkThreeOfKind(pokerHand) && count == 3;
-    }
-
-    private boolean checkPair(PokerHand pokerHand) {
-        long count = pokerHand.getCards().stream().map(Card::getRank).distinct().count();
-        return count == 4;
+    private boolean isThreeOfKind(PokerHand pokerHand) {
+        Map<Rank, Long> groupingByCardsRank = HandUtil.groupHandByCardRank(pokerHand);
+        return groupingByCardsRank.containsValue(3L) && groupingByCardsRank.size() > pokerHand.getCards().size() - 3;
     }
 
     private boolean isCycleStraight(List<Card> cardsByRank) {

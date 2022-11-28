@@ -31,13 +31,23 @@ class ComboProcessorTest {
         Card jS = new Card(Rank.JACK, Suit.SPADES);
         Card tS = new Card(Rank.TEN, Suit.SPADES);
         Card nS = new Card(Rank.NINE, Suit.SPADES);
+        Card twS = new Card(Rank.TWO, Suit.SPADES);
+        Card thrD = new Card(Rank.THREE, Suit.DIAMONDS);
+        Card fourS = new Card(Rank.FOUR, Suit.SPADES);
+        Card fiveS = new Card(Rank.FIVE, Suit.SPADES);
 
         return Stream.of(
                 Arguments.of(new PokerHand(List.of(aS, kS, qS, jS, tS)), Combo.ROYAL_FLUSH),
                 Arguments.of(new PokerHand(List.of(kS, qS, jS, tS, nS)), Combo.STRAIGHT_FLUSH),
                 Arguments.of(new PokerHand(List.of(kS, kC, kD, kH, nS)), Combo.FOUR_OF_A_KIND),
                 Arguments.of(new PokerHand(List.of(kS, kC, kD, qS, qD)), Combo.FULL_HOUSE),
-                Arguments.of(new PokerHand(List.of(aS, qS, jS, tS, nS)), Combo.FLUSH)
-                );
+                Arguments.of(new PokerHand(List.of(aS, qS, jS, tS, nS)), Combo.FLUSH),
+                Arguments.of(new PokerHand(List.of(aS, twS, thrD, fourS, fiveS)), Combo.STRAIGHT),
+                Arguments.of(new PokerHand(List.of(nS, kS, qD, jS, tS)), Combo.STRAIGHT),
+                Arguments.of(new PokerHand(List.of(kD, kS, kH, jS, tS)), Combo.THREE_OF_A_KIND),
+                Arguments.of(new PokerHand(List.of(kD, kS, qS, qD, tS)), Combo.TWO_PAIRS),
+                Arguments.of(new PokerHand(List.of(kD, kS, jS, qD, tS)), Combo.ONE_PAIR),
+                Arguments.of(new PokerHand(List.of(kD, aS, nS, qD, tS)), Combo.NO_COMBO)
+        );
     }
 }

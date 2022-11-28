@@ -23,11 +23,10 @@ public class PokerProcessor {
         Combo combo2 = comboProcessor.process(pokerHand2);
         int strength1 = combo1.getStrength();
         int strength2 = combo2.getStrength();
-        if (strength1 < strength2)
-            return true;
-        if (strength1 > strength2)
-            return false;
-        return postProcess(combo1, pokerHand1, pokerHand2);
+        if (strength1 == strength2) {
+            return postProcess(combo1, pokerHand1, pokerHand2);
+        }
+        return strength1 < strength2;
     }
 
     private boolean postProcess(Combo combo, PokerHand pokerHand1, PokerHand pokerHand2) {
