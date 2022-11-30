@@ -32,4 +32,12 @@ public class HandUtil {
         return pokerHand.getCards().stream()
                 .collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
     }
+
+    public static long countDistinctCardsByRank(PokerHand pokerHand) {
+        return pokerHand.getCards().stream().map(Card::getRank).distinct().count();
+    }
+
+    public static long countDistinctCardsBySuit(PokerHand pokerHand) {
+        return pokerHand.getCards().stream().map(Card::getSuit).distinct().count();
+    }
 }

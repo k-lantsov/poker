@@ -84,7 +84,7 @@ public class ComboProcessor {
     }
 
     private void checkTwoPair(PokerHand pokerHand) {
-        long count = pokerHand.getCards().stream().map(Card::getRank).distinct().count();
+        long count = HandUtil.countDistinctCardsByRank(pokerHand);
         if (!isThreeOfKind(pokerHand) && count == 3) {
             combo = Combo.TWO_PAIRS;
             return;
@@ -93,7 +93,7 @@ public class ComboProcessor {
     }
 
     private void checkPair(PokerHand pokerHand) {
-        long count = pokerHand.getCards().stream().map(Card::getRank).distinct().count();
+        long count = HandUtil.countDistinctCardsByRank(pokerHand);
         if (count == 4) {
             combo = Combo.ONE_PAIR;
             return;
@@ -102,7 +102,7 @@ public class ComboProcessor {
     }
 
     private boolean isFlush(PokerHand pokerHand) {
-        long count = pokerHand.getCards().stream().map(Card::getSuit).distinct().count();
+        long count = HandUtil.countDistinctCardsBySuit(pokerHand);
         return count == 1;
     }
 
