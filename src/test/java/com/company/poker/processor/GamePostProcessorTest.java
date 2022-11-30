@@ -51,12 +51,15 @@ class GamePostProcessorTest {
         Card thrS = new Card(Rank.THREE, Suit.SPADES);
         Card fourD = new Card(Rank.FOUR, Suit.DIAMONDS);
         Card fiveD = new Card(Rank.FIVE, Suit.DIAMONDS);
+        Card twD = new Card(Rank.TWO, Suit.DIAMONDS);
+        Card thrD = new Card(Rank.THREE, Suit.DIAMONDS);
 
         PokerHand royalFlushS = new PokerHand(List.of(aS, kS, qS, jS, tS));
         PokerHand royalFlushD = new PokerHand(List.of(aD, kD, qD, jD, tD));
         PokerHand straightFlushKD = new PokerHand(List.of(kD, qD, jD, tD, nD));
         PokerHand straightFlushKS = new PokerHand(List.of(kS, qS, jS, tS, nS));
         PokerHand straightFlushQD = new PokerHand(List.of(qD, jD, tD, nD, eD));
+        PokerHand straightFlush6D = new PokerHand(List.of(fiveD, fourD, thrD, twD, aD));
         PokerHand fourOfKT = new PokerHand(List.of(kS, kD, kC, kH, tD));
         PokerHand fourOfKQ = new PokerHand(List.of(kS, kD, kC, kH, qD));
         PokerHand fourOfQT = new PokerHand(List.of(qS, qD, qC, qH, tD));
@@ -95,6 +98,7 @@ class GamePostProcessorTest {
                 Arguments.of(royalFlushD, straightFlushKD, true),
                 Arguments.of(royalFlushD, straightFlushKS, true),
                 Arguments.of(straightFlushKD, straightFlushKS, false),
+                Arguments.of(straightFlush6D, straightFlushKD, false),
                 Arguments.of(straightFlushKS, straightFlushKD, false),
                 Arguments.of(straightFlushKD, straightFlushQD, true),
                 Arguments.of(straightFlushQD, straightFlushKD, false),

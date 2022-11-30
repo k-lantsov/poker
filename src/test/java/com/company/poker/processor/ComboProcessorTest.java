@@ -22,6 +22,7 @@ class ComboProcessorTest {
 
     private static Stream<Arguments> testProcess_whenPokerHandProvided() {
         Card aS = new Card(Rank.ACE, Suit.SPADES);
+        Card aD = new Card(Rank.ACE, Suit.DIAMONDS);
         Card kS = new Card(Rank.KING, Suit.SPADES);
         Card kH = new Card(Rank.KING, Suit.HEARTS);
         Card kC = new Card(Rank.KING, Suit.CLUBS);
@@ -32,13 +33,17 @@ class ComboProcessorTest {
         Card tS = new Card(Rank.TEN, Suit.SPADES);
         Card nS = new Card(Rank.NINE, Suit.SPADES);
         Card twS = new Card(Rank.TWO, Suit.SPADES);
+        Card twD = new Card(Rank.TWO, Suit.DIAMONDS);
         Card thrD = new Card(Rank.THREE, Suit.DIAMONDS);
         Card fourS = new Card(Rank.FOUR, Suit.SPADES);
+        Card fourD = new Card(Rank.FOUR, Suit.DIAMONDS);
         Card fiveS = new Card(Rank.FIVE, Suit.SPADES);
+        Card fiveD = new Card(Rank.FIVE, Suit.DIAMONDS);
 
         return Stream.of(
                 Arguments.of(new PokerHand(List.of(aS, kS, qS, jS, tS)), Combo.ROYAL_FLUSH),
                 Arguments.of(new PokerHand(List.of(kS, qS, jS, tS, nS)), Combo.STRAIGHT_FLUSH),
+                Arguments.of(new PokerHand(List.of(fiveD, fourD, thrD, twD, aD)), Combo.STRAIGHT_FLUSH),
                 Arguments.of(new PokerHand(List.of(kS, kC, kD, kH, nS)), Combo.FOUR_OF_A_KIND),
                 Arguments.of(new PokerHand(List.of(kS, kC, kD, qS, qD)), Combo.FULL_HOUSE),
                 Arguments.of(new PokerHand(List.of(aS, qS, jS, tS, nS)), Combo.FLUSH),
