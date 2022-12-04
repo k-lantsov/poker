@@ -9,6 +9,7 @@ import com.company.poker.processor.game.context.ComboContext;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class Main {
@@ -31,7 +32,7 @@ public class Main {
                 comboContext.clearComboContext();
             }
             System.out.format("First player won %d times", counter);
-        } catch (IOException e) {
+        } catch (IOException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

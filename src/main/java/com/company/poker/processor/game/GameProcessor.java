@@ -5,6 +5,8 @@ import com.company.poker.domain.PokerHand;
 import com.company.poker.processor.ComboProcessor;
 import com.company.poker.processor.game.context.PokerContext;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class GameProcessor {
 
     private ComboProcessor comboProcessor;
@@ -30,9 +32,10 @@ public class GameProcessor {
      * @param pokerHand2
      * @return true - when player #1 is a winner, false - player #2
      */
-    public boolean process(PokerHand pokerHand1, PokerHand pokerHand2) {
+    public boolean process(PokerHand pokerHand1, PokerHand pokerHand2) throws InvocationTargetException, IllegalAccessException {
         ComboProcessor comboProcessor = getComboProcessor();
         Combo combo1 = comboProcessor.process(pokerHand1);
+        comboProcessor.getComboContext().clearComboContext();
         Combo combo2 = comboProcessor.process(pokerHand2);
         int strength1 = combo1.getStrength();
         int strength2 = combo2.getStrength();

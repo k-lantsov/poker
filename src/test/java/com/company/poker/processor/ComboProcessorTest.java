@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -16,7 +17,7 @@ class ComboProcessorTest {
 
     @ParameterizedTest()
     @MethodSource
-    void testProcess_whenPokerHandProvided(PokerHand pokerHand, Combo expected) {
+    void testProcess_whenPokerHandProvided(PokerHand pokerHand, Combo expected) throws InvocationTargetException, IllegalAccessException {
         Combo actual = processor.process(pokerHand);
         assertThat(actual).isEqualTo(expected);
     }

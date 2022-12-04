@@ -1,12 +1,16 @@
 package com.company.poker.processor;
 
-import com.company.poker.domain.*;
+import com.company.poker.domain.Card;
+import com.company.poker.domain.PokerHand;
+import com.company.poker.domain.Rank;
+import com.company.poker.domain.Suit;
 import com.company.poker.processor.game.GameProcessor;
 import com.company.poker.processor.game.context.ComboContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -18,7 +22,7 @@ class GamePostProcessorTest {
 
     @ParameterizedTest
     @MethodSource
-    void testProcess_whenPokerHandsProvided(PokerHand pokerHand1, PokerHand pokerHand2, boolean expected) {
+    void testProcess_whenPokerHandsProvided(PokerHand pokerHand1, PokerHand pokerHand2, boolean expected) throws InvocationTargetException, IllegalAccessException {
         boolean actual = gameProcessor.process(pokerHand1, pokerHand2);
         assertThat(actual).isEqualTo(expected);
     }
