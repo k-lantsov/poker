@@ -4,6 +4,7 @@ import com.company.poker.domain.PokerHand;
 import com.company.poker.processor.ComboProcessor;
 import com.company.poker.processor.HandProducer;
 import com.company.poker.processor.game.GameProcessor;
+import com.company.poker.processor.game.context.ComboContext;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,16 +17,18 @@ public class Main {
 
     public static void main(String[] args) {
         HandProducer handProducer = new HandProducer();
-        ComboProcessor comboProcessor = new ComboProcessor();
-        GameProcessor gameProcessor = new GameProcessor();
+        ComboContext comboContext = new ComboContext();
+        ComboProcessor comboProcessor = new ComboProcessor(comboContext);
+        GameProcessor gameProcessor = new GameProcessor(comboProcessor);
         int counter = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
             while (reader.ready()) {
                 String line = reader.readLine();
                 List<PokerHand> pokerHands = handProducer.produce(line);
-                if (gameProcessor.process(comboProcessor, pokerHands.get(0), pokerHands.get(1))) {
+                if (gameProcessor.process(pokerHands.get(0), pokerHands.get(1))) {
                     counter++;
                 }
+                comboContext.clearComboContext();
             }
             System.out.format("First player won %d times", counter);
         } catch (IOException e) {

@@ -1,6 +1,7 @@
 package com.company.poker.processor;
 
 import com.company.poker.domain.*;
+import com.company.poker.processor.game.context.ComboContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,7 +12,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ComboProcessorTest {
-    ComboProcessor processor = new ComboProcessor();
+    ComboProcessor processor = new ComboProcessor(new ComboContext());
 
     @ParameterizedTest()
     @MethodSource

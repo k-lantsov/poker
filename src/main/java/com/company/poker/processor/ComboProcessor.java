@@ -4,6 +4,7 @@ import com.company.poker.domain.Card;
 import com.company.poker.domain.Combo;
 import com.company.poker.domain.PokerHand;
 import com.company.poker.domain.Rank;
+import com.company.poker.processor.game.context.ComboContext;
 import com.company.poker.util.HandUtil;
 
 import java.util.List;
@@ -11,21 +12,33 @@ import java.util.Map;
 
 public class ComboProcessor {
 
-    private Combo combo;
+    private ComboContext comboContext;
+
+    public ComboProcessor(ComboContext comboContext) {
+        this.comboContext = comboContext;
+    }
+
+    public ComboContext getComboContext() {
+        return comboContext;
+    }
+
+    public void setComboContext(ComboContext comboContext) {
+        this.comboContext = comboContext;
+    }
 
     /**
      * The method accepts poker hand consisted of 5 cards and determines combination of the cards
      */
     public Combo process(PokerHand pokerHand) {
         checkRoyalFlush(pokerHand);
-        return combo;
+        return comboContext.getCombo();
     }
 
     private void checkRoyalFlush(PokerHand pokerHand) {
         if (isFlush(pokerHand) &&
                 isStraight(pokerHand) &&
                 Rank.TEN.equals(HandUtil.sortedByCardsRank(pokerHand).get(0).getRank())) {
-            combo = Combo.ROYAL_FLUSH;
+            comboContext.setCombo(Combo.ROYAL_FLUSH);
             return;
         }
         checkStraightFlush(pokerHand);
@@ -35,7 +48,7 @@ public class ComboProcessor {
         if (isFlush(pokerHand) &&
                 isStraight(pokerHand) &&
                 !Rank.TEN.equals(HandUtil.reverseSortedByCardsRank(pokerHand).get(0).getRank())) {
-            combo = Combo.STRAIGHT_FLUSH;
+            comboContext.setCombo(Combo.STRAIGHT_FLUSH);
             return;
         }
         checkFourOfKind(pokerHand);
@@ -44,7 +57,7 @@ public class ComboProcessor {
     private void checkFourOfKind(PokerHand pokerHand) {
         Map<Rank, Long> groupingByCardRank = HandUtil.groupHandByCardRank(pokerHand);
         if (groupingByCardRank.containsValue(4L)) {
-            combo = Combo.FOUR_OF_A_KIND;
+            comboContext.setCombo(Combo.FOUR_OF_A_KIND);
             return;
         }
         checkFullHouse(pokerHand);
@@ -53,7 +66,7 @@ public class ComboProcessor {
     private void checkFullHouse(PokerHand pokerHand) {
         Map<Rank, Long> groupingByCardRank = HandUtil.groupHandByCardRank(pokerHand);
         if (groupingByCardRank.containsValue(3L) && groupingByCardRank.size() == 2) {
-            combo = Combo.FULL_HOUSE;
+            comboContext.setCombo(Combo.FULL_HOUSE);
             return;
         }
         checkFlush(pokerHand);
@@ -61,7 +74,7 @@ public class ComboProcessor {
 
     private void checkFlush(PokerHand pokerHand) {
         if (isFlush(pokerHand)) {
-            combo = Combo.FLUSH;
+            comboContext.setCombo(Combo.FLUSH);
             return;
         }
         checkStraight(pokerHand);
@@ -69,7 +82,7 @@ public class ComboProcessor {
 
     private void checkStraight(PokerHand pokerHand) {
         if (isStraight(pokerHand)) {
-            combo = Combo.STRAIGHT;
+            comboContext.setCombo(Combo.STRAIGHT);
             return;
         }
         checkThreeOfKind(pokerHand);
@@ -77,7 +90,7 @@ public class ComboProcessor {
 
     private void checkThreeOfKind(PokerHand pokerHand) {
         if (isThreeOfKind(pokerHand)) {
-            combo = Combo.THREE_OF_A_KIND;
+            comboContext.setCombo(Combo.THREE_OF_A_KIND);
             return;
         }
         checkTwoPair(pokerHand);
@@ -86,7 +99,7 @@ public class ComboProcessor {
     private void checkTwoPair(PokerHand pokerHand) {
         long count = HandUtil.countDistinctCardsByRank(pokerHand);
         if (!isThreeOfKind(pokerHand) && count == 3) {
-            combo = Combo.TWO_PAIRS;
+            comboContext.setCombo(Combo.TWO_PAIRS);
             return;
         }
         checkPair(pokerHand);
@@ -95,10 +108,10 @@ public class ComboProcessor {
     private void checkPair(PokerHand pokerHand) {
         long count = HandUtil.countDistinctCardsByRank(pokerHand);
         if (count == 4) {
-            combo = Combo.ONE_PAIR;
+            comboContext.setCombo(Combo.ONE_PAIR);
             return;
         }
-        combo = Combo.NO_COMBO;
+        comboContext.setCombo(Combo.NO_COMBO);
     }
 
     private boolean isFlush(PokerHand pokerHand) {

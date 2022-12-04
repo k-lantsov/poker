@@ -1,6 +1,7 @@
-package com.company.poker.processor.game;
+package com.company.poker.processor.game.context;
 
 import com.company.poker.domain.Combo;
+import com.company.poker.processor.game.GamePostProcessor;
 import com.company.poker.processor.game.impl.*;
 
 import java.util.EnumMap;
