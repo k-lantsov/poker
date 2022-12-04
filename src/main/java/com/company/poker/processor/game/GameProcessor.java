@@ -6,6 +6,8 @@ import com.company.poker.processor.ComboProcessor;
 import com.company.poker.processor.game.context.PokerContext;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameProcessor {
 
@@ -28,20 +30,21 @@ public class GameProcessor {
      * If the combinations are not the same the method give boolean result.
      * If both players have the same combination the method call corresponding method
      * for additional checking of the winner in corresponding game post processor
-     * @param pokerHand1
-     * @param pokerHand2
      * @return true - when player #1 is a winner, false - player #2
      */
-    public boolean process(PokerHand pokerHand1, PokerHand pokerHand2) throws InvocationTargetException, IllegalAccessException {
+    public boolean process(List<PokerHand> pokerHands) throws InvocationTargetException, IllegalAccessException {
         ComboProcessor comboProcessor = getComboProcessor();
-        Combo combo1 = comboProcessor.process(pokerHand1);
-        comboProcessor.getComboContext().clearComboContext();
-        Combo combo2 = comboProcessor.process(pokerHand2);
-        int strength1 = combo1.getStrength();
-        int strength2 = combo2.getStrength();
+        List<Combo> combos = new ArrayList<>();
+        for (PokerHand pokerHand: pokerHands) {
+            Combo combo = comboProcessor.process(pokerHand);
+            combos.add(combo);
+            comboProcessor.getComboContext().clearComboContext();
+        }
+        int strength1 = combos.get(0).getStrength();
+        int strength2 = combos.get(1).getStrength();
         if (strength1 == strength2) {
-            GamePostProcessor gamePostProcessor = PokerContext.getPokerContextMap().get(combo1);
-            return gamePostProcessor.postProcess(pokerHand1, pokerHand2);
+            GamePostProcessor gamePostProcessor = PokerContext.getPokerContextMap().get(combos.get(0));
+            return gamePostProcessor.postProcess(pokerHands);
         }
         return strength1 < strength2;
     }

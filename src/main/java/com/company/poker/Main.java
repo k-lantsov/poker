@@ -26,10 +26,9 @@ public class Main {
             while (reader.ready()) {
                 String line = reader.readLine();
                 List<PokerHand> pokerHands = handProducer.produce(line);
-                if (gameProcessor.process(pokerHands.get(0), pokerHands.get(1))) {
+                if (gameProcessor.process(pokerHands)) {
                     counter++;
                 }
-                comboContext.clearComboContext();
             }
             System.out.format("First player won %d times", counter);
         } catch (IOException | InvocationTargetException | IllegalAccessException e) {

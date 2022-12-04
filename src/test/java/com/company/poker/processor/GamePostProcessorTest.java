@@ -22,8 +22,8 @@ class GamePostProcessorTest {
 
     @ParameterizedTest
     @MethodSource
-    void testProcess_whenPokerHandsProvided(PokerHand pokerHand1, PokerHand pokerHand2, boolean expected) throws InvocationTargetException, IllegalAccessException {
-        boolean actual = gameProcessor.process(pokerHand1, pokerHand2);
+    void testProcess_whenPokerHandsProvided(List<PokerHand> pokerHands, boolean expected) throws InvocationTargetException, IllegalAccessException {
+        boolean actual = gameProcessor.process(pokerHands);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -94,47 +94,47 @@ class GamePostProcessorTest {
         PokerHand noComboOfKJT42 = new PokerHand(List.of(twS, fourD, kD, jS, tS));
 
         return Stream.of(
-                Arguments.of(royalFlushS, royalFlushD, false),
-                Arguments.of(royalFlushD, royalFlushS, false),
-                Arguments.of(royalFlushD, straightFlushKD, true),
-                Arguments.of(royalFlushD, straightFlushKS, true),
-                Arguments.of(straightFlushKD, straightFlushKS, false),
-                Arguments.of(straightFlush6D, straightFlushKD, false),
-                Arguments.of(straightFlushKS, straightFlushKD, false),
-                Arguments.of(straightFlushKD, straightFlushQD, true),
-                Arguments.of(straightFlushQD, straightFlushKD, false),
-                Arguments.of(straightFlushKD, straightFlushKD, false),
-                Arguments.of(fourOfKT, fourOfKQ, false),
-                Arguments.of(fourOfKQ, fourOfKT, true),
-                Arguments.of(fourOfKT, fourOfQT, true),
-                Arguments.of(fourOfQA, fourOfKT, false),
-                Arguments.of(fullHouseKT, fullHouseKQ, false),
-                Arguments.of(fullHouseKQ, fullHouseKT, true),
-                Arguments.of(fullHouseQK, fullHouseKT, false),
-                Arguments.of(fullHouseQK, fullHouseKQ, false),
-                Arguments.of(flushA, flushK, true),
-                Arguments.of(flushK, flushA, false),
-                Arguments.of(flushAKJ, flushAKQ, false),
-                Arguments.of(flushAKQ, flushAKJ, true),
-                Arguments.of(straightTA, straightEQ, true),
-                Arguments.of(straightA5, straightEQ, false),
-                Arguments.of(straightNK, straightEQ, true),
-                Arguments.of(straightEQ, straightTA, false),
-                Arguments.of(straightTA, straightA5, true),
-                Arguments.of(threeOfA, threeOfK, true),
-                Arguments.of(threeOfK, threeOfA, false),
-                Arguments.of(threeOfAKQ, threeOfAKT, true),
-                Arguments.of(threeOfAKT, threeOfAKQ, false),
-                Arguments.of(twoPairOfKA, twoPairOfKQ, true),
-                Arguments.of(twoPairOfKQ, twoPairOfKA, false),
-                Arguments.of(twoPairOfKQ, twoPairOfATQ, false),
-                Arguments.of(twoPairOfKTA, twoPairOfKTQ, true),
-                Arguments.of(pairOfA, pairOfT, true),
-                Arguments.of(pairOfT, pairOfA, false),
-                Arguments.of(pairOfAKJN, pairOfAKJT, false),
-                Arguments.of(noComboOfAKJT4, noComboOfAKJT2, true),
-                Arguments.of(noComboOfAKJT2, noComboOfAKJT4, false),
-                Arguments.of(noComboOfKJT42, noComboOfAKJT4, false)
+                Arguments.of(List.of(royalFlushS, royalFlushD), false),
+                Arguments.of(List.of(royalFlushD, royalFlushS), false),
+                Arguments.of(List.of(royalFlushD, straightFlushKD), true),
+                Arguments.of(List.of(royalFlushD, straightFlushKS), true),
+                Arguments.of(List.of(straightFlushKD, straightFlushKS), false),
+                Arguments.of(List.of(straightFlush6D, straightFlushKD), false),
+                Arguments.of(List.of(straightFlushKS, straightFlushKD), false),
+                Arguments.of(List.of(straightFlushKD, straightFlushQD), true),
+                Arguments.of(List.of(straightFlushQD, straightFlushKD), false),
+                Arguments.of(List.of(straightFlushKD, straightFlushKD), false),
+                Arguments.of(List.of(fourOfKT, fourOfKQ), false),
+                Arguments.of(List.of(fourOfKQ, fourOfKT), true),
+                Arguments.of(List.of(fourOfKT, fourOfQT), true),
+                Arguments.of(List.of(fourOfQA, fourOfKT), false),
+                Arguments.of(List.of(fullHouseKT, fullHouseKQ), false),
+                Arguments.of(List.of(fullHouseKQ, fullHouseKT), true),
+                Arguments.of(List.of(fullHouseQK, fullHouseKT), false),
+                Arguments.of(List.of(fullHouseQK, fullHouseKQ), false),
+                Arguments.of(List.of(flushA, flushK), true),
+                Arguments.of(List.of(flushK, flushA), false),
+                Arguments.of(List.of(flushAKJ, flushAKQ), false),
+                Arguments.of(List.of(flushAKQ, flushAKJ), true),
+                Arguments.of(List.of(straightTA, straightEQ), true),
+                Arguments.of(List.of(straightA5, straightEQ), false),
+                Arguments.of(List.of(straightNK, straightEQ), true),
+                Arguments.of(List.of(straightEQ, straightTA), false),
+                Arguments.of(List.of(straightTA, straightA5), true),
+                Arguments.of(List.of(threeOfA, threeOfK), true),
+                Arguments.of(List.of(threeOfK, threeOfA), false),
+                Arguments.of(List.of(threeOfAKQ, threeOfAKT), true),
+                Arguments.of(List.of(threeOfAKT, threeOfAKQ), false),
+                Arguments.of(List.of(twoPairOfKA, twoPairOfKQ), true),
+                Arguments.of(List.of(twoPairOfKQ, twoPairOfKA), false),
+                Arguments.of(List.of(twoPairOfKQ, twoPairOfATQ), false),
+                Arguments.of(List.of(twoPairOfKTA, twoPairOfKTQ), true),
+                Arguments.of(List.of(pairOfA, pairOfT), true),
+                Arguments.of(List.of(pairOfT, pairOfA), false),
+                Arguments.of(List.of(pairOfAKJN, pairOfAKJT), false),
+                Arguments.of(List.of(noComboOfAKJT4, noComboOfAKJT2), true),
+                Arguments.of(List.of(noComboOfAKJT2, noComboOfAKJT4), false),
+                Arguments.of(List.of(noComboOfKJT42, noComboOfAKJT4), false)
         );
     }
 }

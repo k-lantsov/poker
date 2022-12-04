@@ -10,9 +10,9 @@ import java.util.List;
 
 public class FlushAndNoComboGPP implements GamePostProcessor {
     @Override
-    public boolean postProcess(PokerHand pokerHand1, PokerHand pokerHand2) {
-        List<Card> reversedHand1 = HandUtil.reverseSortedByCardsRank(pokerHand1);
-        List<Card> reversedHand2 = HandUtil.reverseSortedByCardsRank(pokerHand2);
+    public boolean postProcess(List<PokerHand> pokerHands) {
+        List<Card> reversedHand1 = HandUtil.reverseSortedByCardsRank(pokerHands.get(0));
+        List<Card> reversedHand2 = HandUtil.reverseSortedByCardsRank(pokerHands.get(1));
         for (int i = 0; i < reversedHand1.size(); i++) {
             Rank hand1CardRank = reversedHand1.get(i).getRank();
             Rank hand2CardRank = reversedHand2.get(i).getRank();

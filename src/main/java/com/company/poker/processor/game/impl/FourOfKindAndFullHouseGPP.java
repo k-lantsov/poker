@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class FourOfKindAndFullHouseGPP implements GamePostProcessor {
     @Override
-    public boolean postProcess(PokerHand pokerHand1, PokerHand pokerHand2) {
-        Map<Rank, Long> hand2Collect = HandUtil.groupHandByCardRank(pokerHand2);
-        Map<Rank, Long> hand1Collect = HandUtil.groupHandByCardRank(pokerHand1);
+    public boolean postProcess(List<PokerHand> pokerHands) {
+        Map<Rank, Long> hand1Collect = HandUtil.groupHandByCardRank(pokerHands.get(0));
+        Map<Rank, Long> hand2Collect = HandUtil.groupHandByCardRank(pokerHands.get(1));
         List<Rank> hand1Range = hand1Collect.entrySet().stream()
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .map(Map.Entry::getKey)

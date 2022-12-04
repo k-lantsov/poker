@@ -10,9 +10,9 @@ import java.util.List;
 
 public class StraightGPP implements GamePostProcessor {
     @Override
-    public boolean postProcess(PokerHand pokerHand1, PokerHand pokerHand2) {
-        List<Card> sorted1 = HandUtil.sortedByCardsRank(pokerHand1);
-        List<Card> sorted2 = HandUtil.sortedByCardsRank(pokerHand2);
+    public boolean postProcess(List<PokerHand> pokerHands) {
+        List<Card> sorted1 = HandUtil.sortedByCardsRank(pokerHands.get(0));
+        List<Card> sorted2 = HandUtil.sortedByCardsRank(pokerHands.get(1));
         for (int i = 0; i < sorted1.size(); i++) {
             Rank rank1 = sorted1.get(i).getRank();
             Rank rank2 = sorted2.get(i).getRank();

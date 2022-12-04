@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class LowerCombosGPP implements GamePostProcessor {
     @Override
-    public boolean postProcess(PokerHand pokerHand1, PokerHand pokerHand2) {
-        Map<Rank, Long> hand1Collect = HandUtil.groupHandByCardRank(pokerHand1);
-        Map<Rank, Long> hand2Collect = HandUtil.groupHandByCardRank(pokerHand2);
+    public boolean postProcess(List<PokerHand> pokerHands) {
+        Map<Rank, Long> hand1Collect = HandUtil.groupHandByCardRank(pokerHands.get(0));
+        Map<Rank, Long> hand2Collect = HandUtil.groupHandByCardRank(pokerHands.get(1));
         Comparator<Map.Entry<Rank, Long>> byCardCountComparator = (e1, e2) -> e2.getValue().compareTo(e1.getValue());
         Comparator<Map.Entry<Rank, Long>> byCardRankComparator = (e1, e2) -> e2.getKey().compareTo(e1.getKey());
         List<Rank> hand1Range = hand1Collect.entrySet().stream()
