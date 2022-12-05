@@ -22,4 +22,4 @@ each row correspond separate round of a game
 
 **What was done well:**
 1) considered situations with draw rounds
-2) after refactoring I was able to avoid multiple checks in some classes - via applications of chain of responsibility and strategy design patterns
+2) after refactoring I was able to avoid multiple checks in some classes - due to using of reflection API and strategy design patterns
